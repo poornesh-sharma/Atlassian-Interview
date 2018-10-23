@@ -26,7 +26,7 @@ public class StoryPointService implements iStoryPointService {
 
 
     @Override
-    public void getStoryPointsForSearchedQuery(String query, String name) {
+    public void calculateStoryPointsSumAndPushToQueue(String query, String name) {
         try {
             long totalStoryPoints =
                     getTotalStoryPointsForQuery(jiraBaseUrl + jiraSearchUrlPath + "?q=" + query);

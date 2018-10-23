@@ -16,6 +16,6 @@ public class StoryPointController {
     @GetMapping("/api/issue/sum")
     public @ResponseBody void getTotalStoryPOints(@RequestParam String query,
             @RequestParam String name) {
-        storyPointService.getStoryPointsForSearchedQuery(query, name);
+        storyPointService.calculateStoryPointsSumAndPushToQueue(query, name);
     }
 }
