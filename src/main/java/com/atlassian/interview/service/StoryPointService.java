@@ -18,6 +18,9 @@ public class StoryPointService implements iStoryPointService {
     @Value("${QUEUE_URL}")
     private String queueUrl;
 
+    @Value("${QUEUE_NAME}")
+    private String queueName;
+
     @Value("${JIRA_SEARCH_URL_PATH}")
     private String jiraSearchUrlPath;
 
@@ -30,7 +33,7 @@ public class StoryPointService implements iStoryPointService {
             JsonObject body = new JsonObject();
             body.addProperty("name", name);
             body.addProperty("totalPoints", totalStoryPoints);
-            sendPost(queueUrl, body.toString());
+            postMessageInQueue(queueUrl + queueName + "?Action=SendMessage&MessageBody=" + body.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,13 +55,12 @@ public class StoryPointService implements iStoryPointService {
         return totalStoryPoints;
     }
 
-    private void sendPost(String url, String body) throws Exception {
+    private void postMessageInQueue(String url) throws Exception {
         URL obj = new URL(url);
         HttpURLConnection con = (HttpURLConnection) obj.openConnection();
         con.setRequestMethod("POST");
         con.setDoOutput(true);
         DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-        wr.writeBytes(body);
         wr.flush();
         wr.close();
         BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
