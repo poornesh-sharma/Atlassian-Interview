@@ -34,6 +34,7 @@ public class StoryPointService implements iStoryPointService {
             body.addProperty("name", name);
             body.addProperty("totalPoints", totalStoryPoints);
             postMessageInQueue(queueUrl + queueName + "?Action=SendMessage&MessageBody=" + body.toString());
+            System.out.println("Following message pushed to queue " + body.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -71,6 +72,5 @@ public class StoryPointService implements iStoryPointService {
             response.append(inputLine);
         }
         in.close();
-        System.out.println(response.toString());
     }
 }
